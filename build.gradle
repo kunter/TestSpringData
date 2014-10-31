@@ -1,0 +1,55 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+
+
+sourceCompatibility = 1.7
+version = '1.0'
+project.ext {
+    springVersion = "4.0.1.RELEASE"
+    hibernateVersion="4.3.4.Final"
+    logback="1.1.2"
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://192.168.126.46:8081/artifactory/repo'
+    }
+}
+
+dependencies {
+
+    compile(
+            //                       Loggers
+
+            [group: 'ch.qos.logback', name: 'logback-core', version: "$logback"],
+            [group: 'ch.qos.logback', name: 'logback-classic', version: "$logback"],
+            [group: 'ch.qos.logback', name: 'logback-access', version: "$logback"],
+
+
+            //                          Spring
+            [group: 'org.springframework', name: 'spring-context', version: "$springVersion"],
+            [group: 'org.springframework', name: 'spring-core', version: "$springVersion"],
+            [group: 'org.springframework', name: 'spring-test', version: "$springVersion"],
+            [group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"],
+            [group: 'org.springframework.data', name: 'spring-data-oracle', version: "1.0.0.RELEASE"],
+            [group: 'org.springframework', name: 'spring-test', version: "$springVersion"],
+            [group: 'org.springframework', name: 'spring-web', version: "$springVersion"],
+
+                    //              Hibernate
+            [group: 'org.hibernate.common', name: 'hibernate-commons-annotations', version: "$hibernateVersion"],
+            [group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"],
+            [group: 'org.hibernate', name: 'hibernate-entitymanager', version: "$hibernateVersion"],
+
+
+    )
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+
+task "create-dirs" << {
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
+
